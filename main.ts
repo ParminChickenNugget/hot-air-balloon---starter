@@ -19,6 +19,30 @@ function createSaucer () {
     } else {
         saucer_speed = -40
     }
+    saucer = sprites.createProjectileFromSide(img`
+        .........fff.........
+        .......ff888ff.......
+        ......f8888998f......
+        .....f888888998f.....
+        ....f888a8a88998f....
+        ...ff88888888898ff...
+        ..fdddddddddddddddf..
+        .fbbbbbbbbbbbbbbbbbf.
+        fa9b9bb9bb9bb9bb9b9af
+        .facccccccccccccccaf.
+        ..faacccccccccccaaf..
+        ...ffaacccccccaaff...
+        .....fffffffffff.....
+        .....f999999999f.....
+        ......fffffffff......
+        `, saucer_speed, 0)
+    animation.runImageAnimation(
+    saucer,
+    flyingSaucer,
+    500,
+    false
+    )
+    saucer.y = randint(10, scene.screenHeight() - 10)
 }
 function createAnimationArrays () {
     flyingSaucer = [img`
@@ -55,23 +79,6 @@ function createAnimationArrays () {
         ......fffffffff......
         `]
     birdGoingLeft = [img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . f f f f . . . . . . . . . 
-        . . f 8 8 8 8 f f f f . f f f . 
-        . f 8 f 8 8 8 8 8 8 8 f 8 8 8 f 
-        f 4 5 8 8 8 8 8 8 8 8 8 f f 8 f 
-        f 5 5 5 8 8 f 8 8 8 8 8 8 8 f . 
-        . f f f 8 8 8 f 8 8 8 8 8 8 f . 
-        . . . . f f f f f 8 8 8 f f . . 
-        . . . . . . . . f f f f . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, img`
         . . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . . 
         . . . f f f f . . . . . . . . . . 
@@ -170,10 +177,84 @@ function createAnimationArrays () {
         `]
 }
 function createBird () {
-	
+    if (Math.percentChance(50)) {
+        birdSpeed = 20
+        chosenAnimation = birdGoingRight
+    } else {
+        birdSpeed = 20
+        chosenAnimation = birdGoingLeft
+    }
+    let bird = sprites.createProjectileFromSide(img`
+        . . . . . . . . . . . f f . . . 
+        . . . . . . . . . . f 8 8 f . . 
+        . . . f f f f . f f 8 8 8 f . . 
+        . . f 8 8 8 8 f f 8 8 8 f f f . 
+        . f 8 f 8 8 8 8 8 8 8 f 8 8 8 f 
+        f 4 5 8 8 8 8 8 8 8 f 8 f f 8 f 
+        f 5 5 5 8 8 8 8 8 f 8 8 8 8 f . 
+        . f f f 8 8 8 8 8 8 8 8 8 8 f . 
+        . . . . f f f f f 8 8 8 f f . . 
+        . . . . . . . . f f f f . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, birdSpeed, 0)
+        animation.runImageAnimation(bird, chosenAnimation, 100, true,)
+        bird.y = randint( 12, scene.screenHeight() -10)
 }
 function createCloud () {
-	
+    cloudImages = [img`
+        ..................1111...............
+        ................11111111.............
+        ...............1111111111............
+        ..............11111111111....11111...
+        ..............111111111111.11111111..
+        .............11111111111111111111111.
+        ........11111111111111111111111111111
+        .......111111111111111111111111111111
+        1111111111111111111111111111111111111
+        .111111111111111111111111111111111111
+        .......111111111111111111111111111111
+        .......................1111111111111.
+        `, img`
+        . . . 1 1 1 1 . . . 1 1 . . . . . . . . 
+        . . 1 1 1 1 1 1 . 1 1 1 1 . . . . . . . 
+        . 1 1 1 1 1 1 1 1 1 1 1 1 1 . . . . . . 
+        . 1 1 1 1 1 1 1 1 1 1 1 1 1 . 1 1 . . . 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 . . . . . . . 
+        `, img`
+        ............111111...........
+        ..........111111111..........
+        .........11111111111.........
+        ........1111111111111........
+        ........1111111111111........
+        ........11111111111111.......
+        ....111111111111111111111111.
+        ...11111111111111111111111111
+        ..111111111111111111111111111
+        ..111111111111111111111111111
+        11111111111111111111111111111
+        .11111111111111111111.1.1111.
+        1........11111111111.....11..
+        11111111111111...............
+        `]
+    projectile = sprites.createProjectileFromSide(img`
+        ............111111...........
+        ..........111111111..........
+        .........11111111111.........
+        ........1111111111111........
+        ........1111111111111........
+        ........11111111111111.......
+        ....111111111111111111111111.
+        ...11111111111111111111111111
+        ..111111111111111111111111111
+        ..111111111111111111111111111
+        11111111111111111111111111111
+        .11111111111111111111.1.1111.
+        1........11111111111.....11..
+        11111111111111...............
+        `, -5, 0)
 }
 function placeMountain (leftPosition: number) {
     lastCreatedMountain = sprites.create(mountains[randint(0, 1)], SpriteKind.Mountain)
@@ -184,11 +265,46 @@ function placeMountain (leftPosition: number) {
     lastCreatedMountain.setFlag(SpriteFlag.AutoDestroy, true)
 }
 function createTree () {
-	
+    tree = sprites.createProjectileFromSide(img`
+        ......cc66......
+        .....c6576c.....
+        ....c677576c....
+        ....cc677666....
+        ...cc6c6667cc...
+        ..6c666777cc6c..
+        ..c76666766776..
+        ..c6777777776c..
+        ..cc67777776cc..
+        .c67cc76676676c.
+        .c777666667777c.
+        .c6777777777766.
+        .cc7767776776666
+        c676cc6766666776
+        c777766666677776
+        cc7777777777776c
+        .c676777677767c.
+        ..cc667666766c..
+        ...ccc6c66ccc...
+        .....cccccc.....
+        .......ee.......
+        ......eeee......
+        .....eeeeee.....
+        .......ee.......
+        `, -10, 0)
+    tree.z = -5
+    tree.bottom = scene.screenHeight()
+    tree.setFlag(SpriteFlag.Ghost, true)
 }
+let tree: Sprite = null
+let projectile: Sprite = null
+let cloudImages: Image[] = []
+let projectile2: Sprite = null
+let chosenAnimation: Image[] = []
+let birdSpeed = 0
 let birdGoingRight: Image[] = []
 let birdGoingLeft: Image[] = []
 let flyingSaucer: Image[] = []
+let saucer: Sprite = null
 let saucer_speed = 0
 let lastCreatedMountain: Sprite = null
 let mountains: Image[] = []
